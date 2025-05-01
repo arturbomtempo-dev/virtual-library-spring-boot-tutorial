@@ -1,0 +1,10 @@
+services:
+  postgres_food_bridge:
+    container_name: postgres_virtual_library
+    image: postgres
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=pg_virtual_library
