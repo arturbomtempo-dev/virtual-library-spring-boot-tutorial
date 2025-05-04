@@ -11,6 +11,7 @@ import dev.arturbomtempo.virtual_library.book.dto.BookRequestDTO;
 import dev.arturbomtempo.virtual_library.book.dto.BookResponseDTO;
 import dev.arturbomtempo.virtual_library.book.model.Book;
 import dev.arturbomtempo.virtual_library.book.repository.BookRepository;
+import dev.arturbomtempo.virtual_library.exception.custom.ResourceNotFoundException;
 
 @Service
 public class BookService {
@@ -27,7 +28,7 @@ public class BookService {
         List<Author> authors = authorRepository.findAllById(dto.authorsIds());
 
         if (authors.isEmpty()) {
-            throw new RuntimeException("No valid authors found.");
+            throw new ResourceNotFoundException("No valid authors found.");
         }
 
         Book book = new Book();
@@ -41,12 +42,12 @@ public class BookService {
 
     public BookResponseDTO update(UUID id, BookRequestDTO dto) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found."));
 
         List<Author> authors = authorRepository.findAllById(dto.authorsIds());
 
         if (authors.isEmpty()) {
-            throw new RuntimeException("No valid authors found.");
+            throw new ResourceNotFoundException("No valid authors found.");
         }
 
         book.setTitle(dto.title());
@@ -62,13 +63,13 @@ public class BookService {
 
     public BookResponseDTO findById(UUID id) {
         Book foundBook = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found."));
         return new BookResponseDTO(foundBook);
     }
 
     public void delete(UUID id) {
         if (!bookRepository.existsById(id)) {
-            throw new RuntimeException("Book not found.");
+            throw new ResourceNotFoundException("Book not found.");
         }
 
         bookRepository.deleteById(id);

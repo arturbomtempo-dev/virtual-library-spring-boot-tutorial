@@ -9,6 +9,7 @@ import dev.arturbomtempo.virtual_library.author.dto.AuthorRequestDTO;
 import dev.arturbomtempo.virtual_library.author.dto.AuthorResponseDTO;
 import dev.arturbomtempo.virtual_library.author.model.Author;
 import dev.arturbomtempo.virtual_library.author.repository.AuthorRepository;
+import dev.arturbomtempo.virtual_library.exception.custom.ResourceNotFoundException;
 
 @Service
 public class AuthorService {
@@ -30,7 +31,7 @@ public class AuthorService {
 
     public AuthorResponseDTO update(UUID id, AuthorRequestDTO dto) {
         Author author = authorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Author not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found."));
 
         author.setName(dto.name());
         author.setDescription(dto.description());
@@ -44,13 +45,13 @@ public class AuthorService {
 
     public AuthorResponseDTO findById(UUID id) {
         Author foundAuthor = authorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Author not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found."));
         return new AuthorResponseDTO(foundAuthor);
     }
 
     public void delete(UUID id) {
         if (!authorRepository.existsById(id)) {
-            throw new RuntimeException("Author not found.");
+            throw new ResourceNotFoundException("Author not found.");
         }
 
         authorRepository.deleteById(id);
