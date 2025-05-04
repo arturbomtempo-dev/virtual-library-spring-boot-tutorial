@@ -4,6 +4,7 @@ public enum Category {
     ROMANCE,
     SCIENCE,
     HISTORY,
+    FANTASY,
     TECHNOLOGY,
     BIOGRAPHY,
     SELF_HELP,

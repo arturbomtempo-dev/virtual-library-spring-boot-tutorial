@@ -30,15 +30,17 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid AuthorRequestDTO dto) {
-        authorService.create(dto);
+    public ResponseEntity<?> create(@RequestBody @Valid AuthorRequestDTO author) {
+        authorService.create(author);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Author successfully registered.");
+                .body("Author successfully registered.");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorResponseDTO> update(@PathVariable UUID id, @RequestBody @Valid AuthorRequestDTO dto) {
-        return ResponseEntity.ok(authorService.update(id, dto));
+    public ResponseEntity<?> update(@PathVariable UUID id,
+            @RequestBody @Valid AuthorRequestDTO author) {
+        authorService.update(id, author);
+        return ResponseEntity.ok("Author data successfully updated.");
     }
 
     @GetMapping
@@ -48,12 +50,12 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponseDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(authorService.findById(id));
+        return ResponseEntity.ok(authorService.findById(id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         authorService.delete(id);
-        return ResponseEntity.ok().body("Author successfully deleted.");
+        return ResponseEntity.ok("Author successfully deleted.");
     }
 }
